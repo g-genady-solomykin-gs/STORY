@@ -1464,7 +1464,7 @@ const stroriesAjaxResponse = (stories) => {
                 let template = '<div class="player-wrapper__chunk player-wrapper__chunk-active">';
                 if (item.type === "video") {
                     template += `
-                        <video class="player-wrapper__chunk-video" preload="metadata" playsinline ${this.muted && 'muted'}>
+                        <video class="player-wrapper__chunk-video" preload="auto" playsinline ${this.muted && 'muted'}>
                             <source src="${item.url}" type="${item.type}/${typeFormat}">
                         </video>
                     `;
