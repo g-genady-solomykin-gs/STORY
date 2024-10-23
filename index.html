@@ -1497,7 +1497,9 @@ const stroriesAjaxResponse = (stories) => {
                 [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')].forEach((storyElement, index) => {
                     storyElement.querySelector('.player-wrapper__next').addEventListener('click', this.circleColors);
                     storyElement.querySelector('.player-wrapper__next').addEventListener('click', this.nextStoryItem);
+                    storyElement.querySelector('.player-wrapper__next').addEventListener('play', this.nextStoryItem);
                     storyElement.querySelector('.player-wrapper__prev').addEventListener('click', this.prevStoryItem);
+                    storyElement.querySelector('.player-wrapper__prev').addEventListener('play', this.prevStoryItem);
                     storyElement.addEventListener('touchstart', this.handleTouchStart);
                     storyElement.addEventListener('touchend', this.handleTouchEnd);
                     storyElement.addEventListener('click', () => this.slideToStoryItem(index));
