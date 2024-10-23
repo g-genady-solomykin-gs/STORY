@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.3/swiper-bundle.css" integrity="sha512-QKd2zIoSNzC2x+3objssllpI7Y0W6y0iM8Kc3tAK+tfYX0p2q9dIp55Voe7PxjLgOSQOcbmhZ52jAJvT7dNKVA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    img {
+        max-width: 100%;
+        height: auto;
+        vertical-align: bottom;
+   }
+    .top-level-categories ul {
+     font-size: 14px !important;
+   }
+   
+   .stories_block {
+     min-height: 130px;
+     height: 100%;
+     margin-top: 45px;
+   }
+   
+    .stories-swiper .swiper {
+     width: 100%;
+     height: 100%;
+   }
+   
+    .stories-swiper .swiper-slide {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   
+    .stories-swiper .swiper-slide img {
+     display: block;
+     width: 100%;
+     height: 100%;
+     -o-object-fit: cover;
+        object-fit: cover;
+   }
+   
+    .stories-cirle-wrapper {
+     max-width: 1200px;
+     width: 100%;
+     margin: 0 auto;
+     display: flex;
+     justify-content: center;
+     column-gap: 15px;
+     overflow-x: auto;
+     overflow-y: hidden;
+   }
+    .stories-cirle-wrapper::-webkit-scrollbar {
+     width: 0;
+   }
+    .stories-cirle-wrapper__circle {
+      flex: none;
+      max-width: 90px;
+      min-width: 90px;
+      min-height: 125px;
+      max-height: 135px;
+      white-space: nowrap;
+      text-align: center;
+      cursor: pointer;
+      &.order-sort {
+        order: 1;
+      }
+   }
+    .stories-cirle-wrapper__picture {
+     max-width: 90px;
+     min-width: 90px;
+     min-height: 90px;
+     max-height: 90px;
+     margin: auto;
+     margin-bottom: 5px;
+     background: radial-gradient(circle at 30% 107%, #8d8752 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #c5510e 90%);
+     border-radius: 50%;
+     padding: 3px;
+     transition: 0.3s;
+   }
+    .stories-cirle-wrapper__picture:hover {
+     transform: scale(0.95);
+   }
+    .stories-cirle-wrapper__picture.viewed-history:hover {
+     background: #74716f !important;
+   }
+    .stories-cirle-wrapper__picture img {
+    max-width: 84px;
+     border-radius: 50%;
+     border: 3px solid #fff;
+   }
+    .stories-cirle-wrapper__title {
+     font-size: 15px;
+     color: #000;
+     text-transform: capitalize;
+     white-space: normal;
+   }
+   
+    .slider-app-stories {
+     height: 100vh;
+     min-width: 100vw;
+     max-width: 100vw;
+     width: 100vw;
+     position: fixed;
+     top: 0;
+     left: 0;
+     background-color: #000;
+     -webkit-animation: fadeInFromNoneStories 0.3s alternate;
+             animation: fadeInFromNoneStories 0.3s alternate;
+     z-index: 99999999999;
+   }
+   
+    .sound {
+     padding: 10px;
+   }
+   
+    .stories-slider-none {
+     display: none;
+   }
+   
+    .stories-swiper .swiper-slide {
+     transition: transform 0.4s ease;
+   }
+    .stories-swiper .swiper-slide:not(.swiper-slide-active) {
+     transform: scale(0.8, 0.8) !important;
+   }
+   
+    .swiperStoriesProd .swiper {
+     width: 100%;
+     height: 100%;
+   }
+   
+    .swiperStoriesProd .swiper-slide {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   
+    .player {
+     max-width: 647px;
+     width: 100%;
+     padding: 20px;
+   }
+    .player-wrapper {
+     position: relative;
+   }
+    .player-wrapper::before {
+     content: "";
+     background: #000;
+     left: 0;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     z-index: 9999;
+   }
+    .player-wrapper__muted {
+     position: relative;
+     color: #fff;
+     background: transparent;
+     font-weight: 600;
+   }
+    .player-wrapper__off-muted {
+     display: none;
+   }
+    .player-wrapper__timeline-wrp {
+     display: flex;
+     align-content: center;
+     height: 3px;
+     margin-bottom: 5px;
+     position: absolute;
+     left: 5px;
+     top: 5px;
+     right: 5px;
+     z-index: 999;
+   }
+    .player-wrapper__timeline {
+     background-color: hsla(0deg, 0%, 100%, 0.2);
+     height: 100%;
+     flex: 1;
+     border-radius: 3px;
+     margin-left: 3px;
+   }
+    .player-wrapper__timeline:first-child {
+     margin-left: 0;
+   }
+    .player-wrapper__process {
+     height: 100%;
+   }
+    .player-wrapper__story-info {
+     display: flex;
+     align-items: center;
+     position: absolute;
+     top: 20px;
+     font-size: 14px;
+     color: #fff;
+   }
+    .player-wrapper__story-info-picture {
+     width: 35px;
+     height: 35px;
+     background-repeat: no-repeat;
+     background-size: contain;
+     border-radius: 50%;
+     margin: 0 10px;
+   }
+    .player-wrapper__story-info-title {
+     font-weight: 600;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
+   }
+    .player-wrapper__story-prod-link {
+     color: red;
+     font-size: 44px;
+     text-align: center;
+   }
+    .player-wrapper__prev {
+     position: absolute;
+     left: 0;
+     bottom: 0;
+     top: 0;
+     width: 50%;
+     z-index: 9;
+   }
+    .player-wrapper__next {
+     position: absolute;
+     right: 0;
+     bottom: 0;
+     top: 0;
+     width: 50%;
+     z-index: 9;
+   }
+    .player-wrapper__chunk {
+     display: none;
+   }
+    .player-wrapper__chunk-video {
+     width: 100%;
+     height: auto;
+     max-height: 100%;
+     min-height: 97vh;
+   }
+    .player-wrapper__chunk-active {
+     display: block;
+   }
+    .player-wrapper__chunk-goods {
+     margin-top: 50px;
+   }
+    .player-wrapper__chunk-goods-text span {
+     position: relative;
+   }
+    .player-wrapper__chunk-goods-text span::before {
+     content: "";
+     position: absolute;
+     left: -13px;
+     top: 50%;
+     display: inline-block;
+     border-bottom: 2px solid;
+     border-left: 2px solid;
+     width: 6px;
+     height: 6px;
+     transform: rotate(135deg) translateY(17%);
+   }
+    .player-wrapper__chunk-goods-wrp-image {
+     max-width: 205px;
+     max-height: 205px;
+     margin: auto;
+     text-align: center;
+   }
+    .player-wrapper__chunk-goods-wrp-image img {
+     max-width: 205px;
+     max-height: 205px;
+     height: auto;
+     width: auto;
+   }
+    .player-wrapper__chunk-goods-wrp-link {
+     margin-top: 5px;
+     max-height: 40px;
+     overflow: hidden;
+   }
+    .player-wrapper__chunk-goods-wrp-link-url {
+     color: #4d4d4d;
+     font-size: 14px;
+   }
+    .player-wrapper__chunk-goods-wrp {
+     display: flex;
+     justify-content: center;
+   }
+    .player-wrapper__chunk-goods-wrp-item {
+     position: relative;
+     max-width: 220px;
+     color: #000;
+     display: flex;
+     justify-content: end;
+     border-radius: 15px;
+     padding: 10px;
+     transition: 0.2s box-shadow;
+   }
+    .player-wrapper__chunk-goods-wrp-item:hover {
+     box-shadow: 0 0 5px 0 #d3d3d3;
+   }
+    .player-wrapper__chunk-goods-wrp-item:hover .player-wrapper__chunk-goods-wrp-link-url {
+     color: blue;
+   }
+    .player-wrapper__chunk-goods-wrp-prices {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     font-weight: 600;
+   }
+    .player-wrapper__flex {
+     display: flex;
+     align-items: baseline;
+     flex-direction: row-reverse;
+     white-space: nowrap;
+   }
+    .player-wrapper__chunk-goods-wrp-price {
+     font-size: 20px;
+     color: #4d4d4d;
+     margin-right: 7px;
+   }
+    .player-wrapper__chunk-goods-wrp-price_old-price {
+     font-size: 16px;
+     color: #727272;
+     font-weight: 600;
+     font-weight: normal;
+   }
+    .player-wrapper__chunk-goods-wrp-price_old-price span {
+     position: relative;
+   }
+    .player-wrapper__chunk-goods-wrp-price_old-price span:before {
+     content: "";
+     border-bottom: 2px solid #f56d6d;
+     position: absolute;
+     width: 100%;
+     height: 50%;
+     transform: rotate(-12deg);
+   }
+    .player-wrapper__chunk-goods-wrp-price {
+     text-decoration: none;
+   }
+    .player-wrapper__chunk-goods-wrp-add-cart {
+     background-color: #dd4003;
+     width: 76px;
+     padding: 0 3px;
+     cursor: pointer;
+     background-size: 33px;
+     color: #fff;
+     border: 1px solid #f15a2c;
+     background: url(../images/cart.svg) #f15a2c no-repeat center;
+     border-radius: 5px;
+     height: 40px;
+     transition: 0.3s background-color;
+   }
+    .player-wrapper__chunk-goods-wrp-add-cart:hover {
+     background-color: #bd3c08;
+   }
+   
+    .swiperStoriesProd {
+     position: relative;
+     padding: 20px 0 43px 0;
+     margin: 0 30px;
+   }
+    .swiperStoriesProd-wrp {
+     position: relative;
+     max-width: 1600px;
+     margin: 0 auto;
+   }
+   
+    .swiperStoriesProd .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after,
+    .swiperStoriesProd .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+     content: "";
+   }
+   
+    .swiperStoriesProd .swiper-button-next-stories-prod {
+     background-color: #f3f3f3;
+     background-image: url("../images/nav_next.svg");
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: 10px;
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     right: 0;
+   }
+   
+    .swiperStoriesProd .swiper-button-prev-stories-prod {
+     background-color: #f3f3f3;
+     background-image: url("../images/nav_prev.svg");
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: 10px;
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     left: 0;
+   }
+   
+    .swiperStoriesProd .swiper-button-next.swiper-button-next-stories-prod.swiper-button-disabled,
+    .swiperStoriesProd .swiper-button-prev.swiper-button-prev-stories-prod.swiper-button-disabled {
+     opacity: 0;
+   }
+
+    .slider-app-stories .stories-swiper .swiper-slide::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.83) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.83) 100%
+        );
+        transition: background 0.3s ease;
+        z-index: 1;
+    }
+
+     .slider-app-stories .stories-swiper .swiper-slide-active::before,
+     .slider-app-stories .stories-swiper .swiper-slide:hover::before {
+        background: transparent;
+    }
+
+    .show-goods {
+     display: none;
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+     background-color: #fff;
+     box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.4);
+     z-index: 3;
+     -webkit-animation: fadeInFromNoneStories 0.3s alternate;
+             animation: fadeInFromNoneStories 0.3s alternate;
+     transition: 0.5s;
+   }
+    .show-goods_opened {
+     display: block;
+   }
+   
+    .overflowBg__visible {
+     position: absolute;
+     left: 0;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     background: #000000a4;
+     z-index: 2;
+     transition: 0.3s background;
+   }
+   
+    .show-goods-hide {
+     background: #000;
+     position: absolute;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     right: 0;
+   }
+   
+    .active-time {
+     background-color: #fff;
+   }
+   
+    .animate-time-line {
+     border-radius: 3px;
+     background-color: #fff;
+     -webkit-animation-name: timeLineAnimeStories;
+             animation-name: timeLineAnimeStories;
+     transition-property: width;
+     animation-timing-function: linear;
+   }
+   
+    .chunk-goods-text-show {
+     display: none;
+   }
+   
+    .sound_muted {
+     padding: 20px;
+     position: absolute;
+     left: 15px;
+     top: 15px;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
+     z-index: 2;
+     cursor: pointer;
+   }
+   
+    .stories-modal__mute-label {
+     position: absolute;
+     white-space: nowrap;
+     top: 50%;
+     padding-left: 10px;
+     transform: translateY(-58%);
+     font-size: 12px;
+     left: 17px;
+   }
+   
+    .close_strories {
+     padding: 20px;
+     background: transparent;
+     position: absolute;
+     right: 15px;
+     top: 15px;
+     z-index: 2;
+     cursor: pointer;
+   }
+   
+    .stories-goods__link {
+     position: absolute;
+     top: 83%;
+     left: 50%;
+     transform: translateX(-50%);
+     z-index: 12;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
+     text-decoration: none !important;
+     color: #fff !important;
+     cursor: pointer;
+     background-color: rgba(0, 0, 0, 0.8);
+     padding: 10px 30px 10px 30px;
+     font-size: 17px;
+     border-radius: 5px;
+     transition: 0.3s background-color;
+   }
+
+    .stories-goods__link:hover {
+     background-color: rgba(184, 80, 11, 0.918);
+   }
+   
+    .stories-goods__link-hide {
+     display: none;
+   }
+   
+    .show-goods-button {
+     position: absolute;
+     -webkit-user-select: none;
+        -moz-user-select: none;
+         -ms-user-select: none;
+             user-select: none;
+     color: #fff;
+     background-color: rgba(0, 0, 0, 0.8);
+     overflow: hidden;
+     z-index: 10;
+     padding: 10px 20px 10px 27px;
+     left: 50%;
+     transform: translateX(-50%);
+     font-size: 15px;
+     border-radius: 5px;
+     transition: 0.3s background-color;
+     cursor: pointer;
+   }
+    .show-goods-button::after {
+     content: "";
+     position: absolute;
+     display: inline-block;
+     border-bottom: 2px solid;
+     border-left: 2px solid;
+     transform: rotate(135deg);
+     left: 12px;
+     top: 19px;
+     width: 6px;
+     height: 6px;
+   }
+    .show-goods-button::before {
+     background-color: rgba(184, 80, 11, 0.918);
+     content: "";
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     z-index: -1;
+     transition: all 0.5s ease;
+   }
+    .show-goods-button__hover::before {
+     width: 100%;
+     height: 0;
+     transform: translate(-50%, -50%) rotate(45deg);
+   }
+    .show-goods-button__hover:hover::before {
+     height: 500%;
+   }
+    .products-center {
+    align-items: flex-end !important;
+  }
+   
+    .show-goods-button__hide {
+     display: none;
+   }
+   
+    .change_on-muted {
+     display: none;
+   }
+   
+    .change_off-muted {
+     display: block;
+   }
+   
+    .addColorBtn {
+     display: none;
+     color: #000;
+   }
+    .addColorBtn::before {
+     transition: 0.2s;
+     transform: rotate(315deg);
+     top: 8px;
+   }
+   
+    .main-dual-ring {
+     position: absolute;
+     left: 50%;
+     bottom: -50%;
+     transform: translateX(-50%);
+     z-index: -1;
+   }
+   
+    .lds-dual-ring {
+     display: inline-block;
+     width: 70px;
+     height: 60px;
+   }
+    .lds-dual-ring::after {
+     content: " ";
+     display: block;
+     width: 64px;
+     height: 64px;
+     border-radius: 50%;
+     border: 2px solid #fff;
+     border-color: #fff transparent #fff transparent;
+     -webkit-animation: lds-dual-ringStories 1.2s linear infinite;
+             animation: lds-dual-ringStories 1.2s linear infinite;
+   }
+
+   @-webkit-keyframes timeLineAnimeStories {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  
+  @keyframes timeLineAnimeStories {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  @-webkit-keyframes fadeInFromNoneStories {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInFromNoneStories {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes lds-dual-ringStories {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes lds-dual-ringStories {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media screen and (min-width:993px) {
+     .main-dual-ring {
+    display: none;
+  }
+}
+@media screen and (max-width: 992px) {
+    .stories_block {
+      margin-top: 20px;
+      min-height: 119px;
+    }
+     .stories-cirle-wrapper__circle {
+      max-width: 80px;
+      min-width: 80px;
+      max-height: 117px;
+      min-height: 117px;
+    }
+     .stories-cirle-wrapper__picture {
+      max-width: 80px;
+      min-width: 80px;
+      max-height: 80px;
+      min-height: 80px;
+    }
+  }
+  @media screen and (max-width: 930px) {
+     .stories-cirle-wrapper {
+      justify-content: unset;
+    }
+  }
+  @media screen and (max-width: 768px) {
+     {
+        max-width: 768px;
+    }
+     .custom-stories {
+        justify-content: flex-start !important;
+    }
+    .stories_block {
+      margin-top: 15px;
+      min-height: 102px;
+    }
+     .stories-cirle-wrapper__circle {
+      max-width: 70px;
+      min-width: 70px;
+      min-height: 100px;
+      max-height: 100px;
+    }
+     .stories-cirle-wrapper__picture {
+      max-width: 70px;
+      min-width: 70px;
+      max-height: 70px;
+      min-height: 70px;
+      border-width: 2px;
+    }
+     .stories-cirle-wrapper__title {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+     .swiperStoriesProd {
+      margin: 0;
+      padding: 20px 0 75px 0;
+    }
+     .player-wrapper__chunk-goods-wrp-add-cart:not([disabled]):hover {
+      background-color: #bd3c08;
+    }
+  }
+  @media screen and (max-width: 600px) {
+     .player {
+      margin: 0;
+      width: 100%;
+      padding: 0;
+    }
+     .stories_block {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      min-height: 102px;
+    }
+     .stories-modal__mute-label {
+      display: none;
+    }
+     .sound_muted {
+      top: 85px;
+      left: 0;
+    }
+     .stories-cirle-wrapper__circle {
+      margin-left: 0;
+    }
+  }
+  @media screen and (max-width: 599px) {
+     .player {
+      padding: 0;
+    }
+     .stories-swiper .swiper-slide {
+      transition: transform 0s ease;
+    }
+     .stories-swiper .swiper-slide:not(.swiper-slide-active) {
+      transform: scale(0) !important;
+    }
+     .player-wrapper__chunk-goods-wrp-item {
+      margin-left: 30px;
+    }
+     .player-wrapper__chunk-goods-wrp-image {
+      max-width: 136px;
+      max-height: 136px;
+    }
+     .player-wrapper__chunk-goods-wrp-image img {
+      max-width: 136px;
+      max-height: 136px;
+    }
+     .swiperStoriesProd .swiper-button-next-stories-prod,
+     .swiperStoriesProd .swiper-button-prev-stories-prod {
+      display: none !important;
+    }
+  }
+  
+  @media screen and (max-width: 479px) {
+     .player-wrapper__chunk-goods-wrp-price,
+     .player-wrapper__chunk-goods-wrp-price_old-price {
+      font-size: 15px;
+    }
+     .player-wrapper__chunk-goods-wrp-link a {
+      font-size: 14px;
+    }
+     .show-goods-button {
+      white-space: nowrap;
+    }
+  }
+     .products-center {
+    justify-content: center !important;
+  }
+  
+
+  
+
+</style>
+
+<body>
+    <div id="app-stories-custom" data-story-custom-id></div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.0.3/swiper-bundle.min.js" integrity="sha512-QffynxUqAt8YnO9jTkUP2yb1ijdpwTVmoPhH5x6l8A+Fkzff56Sc3sTstA7hSxQUOhgtm6MMz4uD92w9tDS+TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script type="text/javascript" xml="space">
+
+const fetchStories = (storiesId) => {
+    const trimmedIds = storiesId
+        .split(',')
+        .map(id => id.trim())
+        .filter(Boolean);
+
+    const cacheKey = `stories_${trimmedIds.join(',')}`;
+
+    const cachedStories = localStorage.getItem(cacheKey);
+    if (cachedStories) {
+        stroriesAjaxResponse(JSON.parse(cachedStories));
+        return;
+    }
+
+    $.ajax({
+        url: 'https://run.mocky.io/v3/82cb1575-66c8-4769-8a1b-addb3c48700c',
+        data: { story_ids: trimmedIds },
+        type: 'GET',
+        dataType: 'json',
+        success: ({ items = [] }) => {
+            if (items.length) {
+                const stories = items.map(({ story_id, name, enable, thumbnail, contents }) => ({
+                    id: story_id,
+                    name,
+                    enable,
+                    photo: thumbnail,
+                    items: contents.map(({ content_id, type, content_path, link, products }) => ({
+                        id: content_id,
+                        type,
+                        url: content_path,
+                        prod: link,
+                        goods: Array.isArray(products) ? products : Object.values(products || {})
+                    }))
+                }));
+
+                localStorage.setItem(cacheKey, JSON.stringify(stories));
+
+                stroriesAjaxResponse(stories);
+            }
+        },
+        error: (xhr, status, error) => console.error(xhr, status, error)
+    });
+}
+
+const updateStories = (newStoriesId) => {
+    const oldStoriesId = document.getElementById('app-stories-custom').dataset.storyCustomId;
+
+    if (newStoriesId !== oldStoriesId) {
+        const oldTrimmedIds = oldStoriesId.split(',').map(id => id.trim()).filter(Boolean);
+        const oldCacheKey = `stories_${oldTrimmedIds.join(',')}`;
+        
+        localStorage.removeItem(oldCacheKey);
+        
+        document.getElementById('app-stories-custom').dataset.storyCustomId = newStoriesId;
+    }
+
+    fetchStories(newStoriesId);
+}
+
+const storiesId = document.getElementById('app-stories-custom').dataset.storyCustomId;
+fetchStories(storiesId);
+
+const stroriesAjaxResponse = (stories) => {
+    const app = document.getElementById("app-stories-custom");
+
+    if (app) new StoriesSlider(app, { stories }); else return;
+};
+
+
+ 
+        class StoriesSlider {
+            constructor(element, options) {
+                this.element = element;
+                this.options = options;
+                this.storiesIndexes = this.getInitialStoriesIndexes();
+                this.muted = false;
+                this.opened = false;
+                this.storyNames = this.options.stories.map((story) => story.name);
+                this.arrayIndexes = [];
+                this.colorCircleActive = 'rgb(179 179 179)';
+                this.setup();
+            }
+            
+            circleColors = () => {
+                if (this.isLastStory()) {
+                    const currentIndex = this.getCurrentIndex();
+                    this.arrayIndexes.push(currentIndex);
+                    this.loadPageCircle(this.arrayIndexes);
+                }
+            }
+            
+            isLastStory = () => {
+                return this.storiesIndexes[this.modalSwiper.activeIndex] === this.options.stories[this.modalSwiper.activeIndex].items.length - 1;
+            }
+            
+            getCurrentIndex = () => {
+                return this.modal.parentNode.querySelector('.stories-cirle-wrapper').children[this.modalSwiper.activeIndex];
+            }
+    
+            loadPageCircle(idCurrentStories) {
+                const orderIds = [];
+                let dataObject = JSON.parse(localStorage.getItem('custom_stories_data_key') || '{}');
+                
+                if (idCurrentStories && idCurrentStories.length) {
+                    idCurrentStories.forEach((storyElement, i) => {
+                        this.element.querySelectorAll('.stories-cirle-wrapper__circle').forEach(item => {
+                            if (item.children[0] === storyElement.children[0] && item.classList.contains('data_story_current_id_local') !== storyElement.id) {
+                                orderIds.push(storyElement);
+                            }
+                        });
+            
+                        dataObject[`stories_key_current_id_${storyElement.getAttribute('data-circle-id')}`] = orderIds[i]?.id ||
+                        dataObject[`stories_key_current_id_${storyElement.getAttribute('data-circle-id')}`] || null;
+            
+                        this.localSave();
+                    });
+            
+                    localStorage.setItem('custom_stories_data_key', JSON.stringify(dataObject));
+                }
+            }
+            
+            localSave() {
+                const dataSaveCurrentIdStorageLocal = 'data_story_current_id_local_';
+                const savedData = JSON.parse(localStorage.getItem('custom_stories_data_key') || '{}');
+                
+                for (const [key, value] of Object.entries(savedData)) {
+                    if (value && value.includes(dataSaveCurrentIdStorageLocal)) {
+                        const id = this.element.querySelector(`#${value}`);
+                        if (id) {
+                            id.children[0].style.background = this.colorCircleActive;
+                            id.classList.add('order-sort');
+                        } else {
+                            delete savedData[key];
+                        }
+                    }
+                }
+                
+                localStorage.setItem('custom_stories_data_key', JSON.stringify(savedData));
+            }
+   
+            makeStoriesCircles() {
+                this.storiesCircles = document.createElement("div");
+                this.storiesCircles.classList.add("stories-cirle");
+                let template = '<div class="stories-container"><div class="stories-cirle-wrapper">';
+
+                if (this.options?.stories?.constructor === Array) {
+                    this.options.stories.forEach((story) => {
+                        template += this.getStoryCircleTemplate(story.name, story.photo, story.id);
+                    });
+                }
+
+                template += '</div></div>';
+
+                this.storiesCircles.innerHTML = template;
+                this.element.append(this.storiesCircles);
+
+                [...this.storiesCircles.querySelectorAll('.stories-cirle-wrapper__circle')].forEach((circle, i) => {
+                    circle.classList.add('data_story_current_id_local');
+                    circle.id = `data_story_current_id_local_${circle.getAttribute('data-circle-id')}`;
+
+                    circle.addEventListener('click', () => {
+                        if (this.modal.classList.contains('stories-slider-none')) {
+                            this.modal.classList.remove('stories-slider-none');
+                            document.body.style.overflow = 'hidden';
+
+                            let currentItem = this.options.stories[this.modalSwiper.activeIndex].items[this.storiesIndexes[this.modalSwiper.activeIndex]];
+                            let activeElmAnimation = this.modal.children[0].children[0].children[i].querySelector('.player-wrapper__timeline').children[0];
+                            let videoDuration = `${this.modal.children[0].children[0].children[i].querySelector('video').duration}s`;
+                                activeElmAnimation.classList.add('animate-time-line');
+                                activeElmAnimation.style.animationDuration = videoDuration;
+
+                            let linkAppend = this.modal.children[0].children[0].children[i].querySelector('.player-wrapper__chunk-wrp');
+
+                            this.options.stories[i].items.forEach(stories => {
+                                if (stories.goods.length !== 0) {
+                                    this.showGoods.innerHTML = this.getGoodsTemplate(currentItem);
+                                    this.goodsButton.deleted;
+                                } else {
+                                    this.showGoods.innerHTML = '';
+                                    this.goodsButton.classList.add('show-goods-button__hide');
+                                    linkAppend.append(this.showGoodsButtonLink(stories.prod));
+                                }
+                            });
+                        }
+
+                        if (!this.opened) {
+                            this.initEvents();
+                            this.opened = true;
+                        }
+
+                        this.modalSwiper.slideTo(i);
+                        this.playVideo();
+
+                        const currentItem = this.options.stories[this.modalSwiper.activeIndex].items[this.storiesIndexes[this.modalSwiper.activeIndex]];
+                        this.showGoods.innerHTML = this.getGoodsTemplate(currentItem);
+                    });
+                });
+            }
+
+            makeStoriesModal(children) {
+                if (children?.constructor !== String) return "";
+
+                if (!this.modal) {
+                    this.modal = document.createElement("div");
+                    this.modal.classList.add("slider-app-stories", "stories-slider-none");
+                
+                    this.showGoods = document.createElement('div');
+                    this.showGoods.classList.add('show-goods');
+                    this.showGoods.innerHTML = this.getGoodsTemplate();
+                
+                    this.mountedSound = document.createElement('div');
+                    this.mountedSound.classList.add('sound_muted');
+                    this.mountedSound.innerHTML = this.makeStoriesModalMuted();
+                
+                    const swiperElement = this.makeSwiperOnModal();
+                    swiperElement.querySelector(".swiper-wrapper").innerHTML = children;
+                
+                    this.modal.append(
+                        swiperElement,
+                        this.mountedSound,
+                        this.getModalCloseButton(),
+                        this.showGoodsButton(),
+                        this.showGoods,
+                        this.owerflowBg()
+                    );
+                
+                    this.element.append(this.modal);
+                }
+            }
+
+            closeModal() {
+                this.pauseVideo();
+                this.modal.classList.add('stories-slider-none');
+                document.body.style.overflow = '';
+            }
+
+            makeStoriesModalMuted() {
+                return `
+                    <div class="player-wrapper__muted">
+                        <div class="player-wrapper__on-muted">
+                            <svg width="22" height="22" viewBox="0 0 20 20" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.03662 13.1667L11.5 16.8289V3.17108L7.03662 6.83333H1.5V13.1667H7.03662ZM0 14.6667V5.33333H6.5L13 0V20L6.5 14.6667H0Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 10C19.75 12.412 18.6368 14.7895 16.4785 16.5776L15.5215 15.4224C17.3632 13.8968 18.25 11.9311 18.25 10C18.25 8.06887 17.3632 6.1032 15.5215 4.57756L16.4785 3.42244C18.6368 5.21051 19.75 7.58799 19.75 10Z"></path></svg>
+                            <span class="stories-modal__mute-label">Sound on</span>
+                        </div>
+                        <div class="player-wrapper__off-muted">
+                            <svg width="22" height="22" viewBox="0 0 20 20" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M13 0V9.93934L11.5 8.43934V3.17108L8.60617 5.54551L7.54036 4.4797L13 0Z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M13 14.0438L17.9697 19.0304L19.0304 17.9697L1.55941 0.439579L0.498747 1.50024L4.31891 5.33333H0V14.6667H6.5L13 20V14.0438ZM11.5 12.5387V16.8289L7.03662 13.1667H1.5V6.83333H5.81384L11.5 12.5387Z"></path></svg>
+                            <span class="stories-modal__mute-label">Sound off</span>
+                        </div>
+                    </div>
+                    `
+            }
+
+            makeSwiperOnModal() {
+                const swiperMainElement = document.createElement("div");
+                swiperMainElement.classList.add("stories-swiper");
+                swiperMainElement.innerHTML = '<div class="swiper-wrapper"></div>';
+
+                this.modalSwiper = new Swiper(swiperMainElement, {
+                    slidesPerView: this.options.stories.length,
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                    noSwiping: false,
+                    noSwipingClass: "swiper-slide",
+                    breakpoints: {
+                        320: {
+                            slidesPerView: 1,
+                            spaceBetween: 0
+                        },
+                        480: {
+                            slidesPerView: 1.3,
+                            spaceBetween: 0
+                        },
+                        600: {
+                            slidesPerView: 1.3,
+                            spaceBetween: 0
+                        },
+                        620: {
+                            slidesPerView: 1.4,
+                            spaceBetween: 0
+                        },
+                        640: {
+                            slidesPerView: 1.5,
+                            spaceBetween: 0
+                        },
+                        658: {
+                            slidesPerView: 1.6,
+                            spaceBetween: 0
+                        },
+                        698: {
+                            slidesPerView: 1.7,
+                            spaceBetween: 0
+                        },
+                        728: {
+                            slidesPerView: 1.8,
+                            spaceBetween: 0
+                        },
+                        825: {
+                            slidesPerView: 1.9,
+                            spaceBetween: 0
+                        },
+                        992: {
+                            slidesPerView: 2,
+                            spaceBetween: 0
+                        },
+                        1090: {
+                            slidesPerView: 2.1,
+                            spaceBetween: 0,
+                        },
+                        1100: {
+                            slidesPerView: 2.45,
+                            spaceBetween: 0,
+                        },
+                        1110: {
+                            slidesPerView: 2.52,
+                            spaceBetween: 0,
+                        },
+                        1290: {
+                            slidesPerView: 2.8,
+                            spaceBetween: 0,
+                        },
+                        1320: {
+                            slidesPerView: 2.8,
+                            spaceBetween: 0
+                        },
+                        1420: {
+                            slidesPerView: 2.9,
+                            spaceBetween: 0
+                        },
+                        1540: {
+                            slidesPerView: 3,
+                            spaceBetween: 0
+                        },
+                        1920: {
+                            slidesPerView: 3.3,
+                            spaceBetween: 0
+                        }
+                    }
+                });
+
+                return swiperMainElement;
+            }
+
+            makeStoriesTemplate() {
+                if (!Array.isArray(this.options?.stories)) {
+                    return "";
+                }
+
+                return this.options.stories.map(story => {
+                    if (!Array.isArray(story?.items) || story.items.length === 0) {
+                        return "";
+                    }
+
+                    const needItem = story.items[0];
+                    return this.getStoryItemTemplate(story, needItem);
+                }).join("");
+            }
+
+
+            getInitialStoriesIndexes() {
+                return Object.fromEntries(this.options.stories.map((_, index) => [index, 0]));
+            }
+            
+            showGoodsButtonLink(link) {
+                return Object.assign(document.createElement("a"), {
+                    className: 'stories-goods__link',
+                    href: link,
+                    innerText: 'Go to',
+                });
+            }
+
+            showGoodsButton() {
+                this.goodsButton = document.createElement('div');
+                this.goodsButton.classList.add('show-goods-button', 'show-goods-button__hover');
+                this.goodsButton.innerHTML = 'Show goods';
+                this.goodsButton.style.bottom = "calc(7% - 10px)";
+                this.goodsButton.onclick = (e) => {
+
+                    this.swiperInitPod();
+
+                    const originalElement = e.currentTarget || e.originalTarget;
+                    const goodsElement = originalElement.nextElementSibling;
+
+                    const visibleBg = originalElement.parentNode.querySelector('.overflowBg');
+                    visibleBg.classList.toggle('overflowBg__visible');
+
+                    if (goodsElement) {
+                        goodsElement.classList.toggle('show-goods_opened');
+                        let isOpen = goodsElement.classList.contains('show-goods_opened');
+
+                        isOpen ? this.pauseVideo(false) : this.playVideo();
+
+                        if (this.goodsButton.innerHTML = isOpen) {
+                            this.goodsButton.innerHTML = 'Hide goods';
+                            this.goodsButton.classList.add('addColorBtn');
+                        } else {
+                            this.goodsButton.innerHTML = 'Show goods';
+                            this.goodsButton.classList.remove('addColorBtn');
+                        }
+                    }
+
+                    e.stopPropagation();
+                }
+
+                return this.goodsButton;
+            }
+
+            owerflowBg = () => {
+                this.overflowBg = document.createElement('div');
+                this.overflowBg.classList.add('overflowBg');
+                this.overflowBg.onclick = (e) => {
+
+                    const originalElement = e.currentTarget || e.originalTarget;
+
+                    const visibleBg = originalElement.parentNode.querySelector('.overflowBg');
+
+                    if (visibleBg) {
+                        visibleBg.classList.toggle('overflowBg__visible');
+                        let isOpen = visibleBg.classList.contains('overflowBg__visible');
+                        visibleBg.parentNode.querySelector('.show-goods').classList.remove('show-goods_opened');
+
+                        if (isOpen) {
+                            this.pauseVideo(false);
+                        } else {
+                            this.playVideo();
+                        }
+
+                        if (this.goodsButton.innerHTML = isOpen) {
+                            this.goodsButton.innerHTML = 'Hide goods';
+                            this.goodsButton.classList.add('addColorBtn');
+                        } else {
+                            this.goodsButton.innerHTML = 'Hide goods';
+                            this.goodsButton.classList.remove('addColorBtn');
+                        }
+                    }
+
+                }
+
+                return this.overflowBg;
+            }
+
+            getStoryCircleTemplate(name,preview,id) {
+                return `
+                    <div class="stories-cirle-wrapper__circle" data-circle-id="${id}">
+                        <div class="stories-cirle-wrapper__picture">
+                            <img src="${preview}" alt="${name}"></img>
+                        </div>
+                        <div class="stories-cirle-wrapper__title">
+                            <span>${name}</span>
+                        </div>
+                    </div>`;
+            }
+
+            getStoryItemTemplate(story, item) {
+                const { photo, name } = story;
+                const timelineTemplate = this.getStoryItemTimelineTemplate(story);
+                const itemTypeTemplate = this.getStoryItemTypeTemplate(item, story);
+                const preloader = this.preloader();
+
+                return `
+                    <div class="swiper-slide">
+                        <div class="player">
+                            <div class="player-wrapper">
+                                <div class="player-wrapper__timeline-wrp">
+                                    ${timelineTemplate}
+                                </div>
+                                <div class="player-wrapper__nav">
+                                    <div class="player-wrapper__prev"></div>
+                                    <div class="player-wrapper__next"></div>
+                                </div>
+                                <div class="player-wrapper__chunk-wrp">
+                                    ${itemTypeTemplate}
+                                </div>
+                                <div class="player-wrapper__story-info">
+                                    <div class="player-wrapper__story-info-picture" style="background-image: url('${photo}')"></div>
+                                    <div class="player-wrapper__story-info-title">${name}</div>
+                                </div>
+                            </div>
+                        </div>
+                        ${preloader}
+                    </div>
+                `;
+            }            
+
+            getStoryGoodsLinkTemplate(prod, name) {
+                return `
+                    <div class="stories-goods">
+                        <a class="stories-goods__link" href="${prod}">${name}</a>
+                    </div>`;
+            }
+
+            preloader() {
+                return `
+                    <div class="main-dual-ring">
+                        <div class="lds-dual-ring"></div>
+                    </div>
+                    `;
+            }
+
+            getStoryItemTimelineTemplate(story) {
+                let template = '';
+
+                story.items.forEach(() => {
+                    template += 
+                        `<div class="player-wrapper__timeline">
+                            <div class="player-wrapper__process"></div>
+                        </div>`;
+                });
+
+                return template;
+            }
+
+            swiperInitPod = () => {
+                const swiperProd = new Swiper(".swiperStoriesProd", {
+                    navigation: {
+                        nextEl: ".swiper-button-next-stories-prod",
+                        prevEl: ".swiper-button-prev-stories-prod",
+                    },
+                    breakpoints: {
+                        320: {
+                            slidesPerView: 2.5,
+                            spaceBetween: 20
+                        },
+                        576: {
+                            slidesPerView: 2.5,
+                            spaceBetween: 20
+                        },
+                        769: {
+                            slidesPerView: 3.5,
+                            spaceBetween: 20
+                        },
+                        992: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        },
+                        1200: {
+                            slidesPerView: 5,
+                            spaceBetween: 0
+                        },
+                        1600: {
+                            slidesPerView: 6,
+                            spaceBetween: 0,
+                        },
+                    }
+                });
+
+                swiperProd.update();
+            }
+
+            getGoodsTemplate(storyItem) {
+                if (!storyItem?.goods) return '';
+            
+                let template = `
+                    <div class="swiper swiperStoriesProd">
+                        <div class="swiper-wrapper">`;
+            
+                storyItem.goods.forEach((item, index) => {
+                    const updateClassOnResize = () => {
+                        const currentItem = this.modal.children[4].querySelector('.swiper-wrapper');
+            
+                        if (!currentItem) {
+                            return;
+                        }
+            
+                        if (window.innerWidth > 992) {
+                            if (index <= 5) {
+                                currentItem.classList.add('products-center');
+                            } else {
+                                currentItem.classList.remove('products-center');
+                            }
+                        } else {
+                            currentItem.classList.remove('products-center');
+                        }
+                    };
+            
+                    Promise.resolve(true).then(updateClassOnResize);
+
+                    window.addEventListener('resize', updateClassOnResize);
+            
+                    const price = item.special_price < item.price && item.special_price != null ? item.special_price : item.price;
+                    const oldPrice = item.old_price ?? 0;
+                    const canShowOldPrice = oldPrice > price;
+            
+                    template += this.getGoodTemplate(item, price, oldPrice, canShowOldPrice);
+                });
+            
+                template += `
+                    </div>
+                        <div class="swiper-button-next swiper-button-next-stories-prod"></div>
+                        <div class="swiper-button-prev swiper-button-prev-stories-prod"></div>
+                    </div>
+                `;
+            
+                return template;
+            }            
+
+            getGoodTemplate(item, price, oldPrice, canShowOldPrice) {
+                const activeIndex = this.modalSwiper.activeIndex;
+
+                const formatPrice = (priceString) => {
+                    const priceNumber = parseInt(priceString.split('.')[0]);
+                    return priceNumber.toLocaleString('ru-RU') + ' &#8376;';
+                }
+
+                return `
+                <div class="swiper-slide">
+                    <div class="player-wrapper__chunk-goods-wrp-item">
+                        <div class="player-wrapper__chunk-goods-wrp-content">
+                            <div class="player-wrapper__chunk-goods-wrp-image">
+                                <a href="/${item.url_key}.html?from=story${this.storyNames[activeIndex]}" target="_blank">
+                                    <img src="${item.thumbnail != null ? '/media/catalog/product' + item.thumbnail : '/media/catalog/product/placeholder/default/Selection_01222_8.png'}"></img>
+                                </a>
+                            </div>
+                            <div class="player-wrapper__chunk-goods-wrp-link">
+                                <a class="player-wrapper__chunk-goods-wrp-link-url" href="/${item.url_key}.html?from=story${this.storyNames[activeIndex]}" target="_blank">${item.name}</a>
+                            </div>
+                            <div class="player-wrapper__chunk-goods-wrp-prices">
+                                <div class="player-wrapper__flex">
+                                <div class="player-wrapper__chunk-goods-wrp-price_old-price"><span>${canShowOldPrice ? formatPrice(oldPrice) : ''}</span></div>
+                                <div class="player-wrapper__chunk-goods-wrp-price"><span>${formatPrice(price)}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }
+
+            getStoryItemTypeTemplate(item) {
+                const typeFormat = item.url.slice(item.url.lastIndexOf('.') + 1);
+                let template = '<div class="player-wrapper__chunk player-wrapper__chunk-active">';
+                if (item.type === "video") {
+                    template += `
+                        <video class="player-wrapper__chunk-video" preload="metadata" playsinline ${this.muted && 'muted'}>
+                            <source src="${item.url}" type="${item.type}/${typeFormat}">
+                        </video>
+                    `;
+                }
+                if (item.type === "image") {
+                    template += `<img src="${item.url}" alt="${item.type}"></img>`;
+                }
+                    template += '</div>';
+
+                    return template;
+            }
+
+            getModalCloseButton() {
+                const button = document.createElement("div");
+                button.classList.add('close_strories');
+                button.innerHTML = `
+                    <div class="close_strories_mark">
+                        <svg width="18" height="18" fill="#fff">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.94 9 .47 1.53 1.53.47 9 7.94 16.47.47l1.06 1.06L10.06 9l7.47 7.47-1.06 1.06L9 10.06l-7.47 7.47-1.06-1.06L7.94 9z"/>
+                        </svg>
+                    </div>`;
+                button.addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                return button;
+            }
+
+            initEvents() {
+                [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')].forEach((storyElement, index) => {
+                    storyElement.querySelector('.player-wrapper__next').addEventListener('click', this.circleColors);
+                    storyElement.querySelector('.player-wrapper__next').addEventListener('click', this.nextStoryItem);
+                    storyElement.querySelector('.player-wrapper__prev').addEventListener('click', this.prevStoryItem);
+                    storyElement.addEventListener('touchstart', this.handleTouchStart);
+                    storyElement.addEventListener('touchend', this.handleTouchEnd);
+                    storyElement.addEventListener('click', () => this.slideToStoryItem(index));
+                });
+
+                this.modalSwiper.on('slideChange', () => {
+                    const activeIndex = this.modalSwiper.activeIndex;
+                    const prevIndex = this.modalSwiper.previousIndex;
+                    const activeElement = this.modalSwiper.slides[activeIndex];
+                    const prevElement = this.modalSwiper.slides[prevIndex];
+
+                    if (activeElement) {
+                        const video = activeElement.querySelector('video');
+                        const currentItem = this.options.stories[this.modalSwiper.activeIndex].items[this.storiesIndexes[this.modalSwiper.activeIndex]];
+                        const opacityTimeLineNone = prevElement.querySelector('.player-wrapper__timeline-wrp').style.opacity = 0;
+                        const opacityTimeLineBlock = activeElement.querySelector('.player-wrapper__timeline-wrp').style.opacity = 1;
+
+                        let activeElmAnimation = activeElement.querySelector('.player-wrapper__timeline').children[0];
+                        activeElmAnimation.classList.add('animate-time-line');
+                        activeElmAnimation.style.animationDuration = `${video.duration}s`;
+
+                        video.addEventListener('ended', this.nextStoryItem);
+
+                        const nextAnimElemSlide = activeElement.querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+                        nextAnimElemSlide.forEach(elm => {
+
+                            let elmProcess = elm.querySelector('.player-wrapper__process');
+
+                            if (elmProcess.style.animationPlayState === "paused") {
+                                elmProcess.style.animationPlayState = "running";
+                                elmProcess.classList.add('animate-time-line');
+                            }
+                        });
+
+                        video?.play();
+
+                        let prevElmSliderLinkHiden = prevElement.querySelectorAll('.stories-goods__link'),
+                            activeElmSliderLinkHiden = activeElement.querySelectorAll('.stories-goods__link');
+
+                        prevElmSliderLinkHiden.forEach(prevElmLink => {
+                            if (prevElmLink) {
+                                prevElmLink.classList.add('show-goods-button__hide');
+                            }
+                        });
+
+                        activeElmSliderLinkHiden.forEach(activeElmLink => {
+                            if (activeElmLink) {
+                                activeElmLink.classList.remove('show-goods-button__hide');
+                            }
+                        });
+
+                        let linkAppend = activeElement.querySelector('.player-wrapper__chunk-wrp');
+
+                        if (currentItem.goods.length > 0) {
+                            this.showGoods.innerHTML = this.getGoodsTemplate(currentItem);
+                            this.goodsButton.classList.remove('show-goods-button__hide');
+                        } else {
+                            this.showGoods.innerHTML = '';
+                            this.goodsButton.classList.add('show-goods-button__hide');
+                            linkAppend.append(this.showGoodsButtonLink(currentItem.prod))
+                        }
+                    }
+
+                    if (prevElement) {
+                        const video = prevElement.querySelector('video');
+
+                        const prevAnimElemSlide = prevElement.querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+                        prevAnimElemSlide.forEach(elm => {
+                            let elmProcess = elm.querySelector('.player-wrapper__process');
+
+                            if (elmProcess.style.animationPlayState === "running" && elmProcess.classList.contains('animate-time-line')) {
+                                elmProcess.style.animationPlayState = "paused";
+                                elmProcess.classList.remove('animate-time-line');
+                            }
+
+                        });
+
+                        if (video) {
+                            video.pause();
+                            video.currentTime = 0;
+                        }
+                    }
+                });
+            }
+
+            playVideo() {
+                const activeIndex = this.modalSwiper.activeIndex;
+                const slides = this.modalSwiper.slides.length > 0 ? this.modalSwiper.slides : [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')];
+                const activeElement = slides[activeIndex];
+
+                if (activeElement) {
+                    const video = activeElement.querySelector('video');
+                    const timeLineAll = [...activeElement.querySelectorAll('.player-wrapper__timeline')];
+                    const currentItemIndex = this.storiesIndexes[this.modalSwiper.activeIndex];
+
+                    video?.play();
+
+                    const activeAnimationElm = activeElement.children[0].querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+                    activeAnimationElm.forEach(elm => {
+                        elm.querySelector('.player-wrapper__process').style.animationPlayState = "running";
+                    });
+
+                    video.addEventListener('loadedmetadata', (e) => {
+                        let resDuration = e.target.duration;
+                        let resultDuration = `${resDuration}s`;
+                        nextAnimationLine(resultDuration);
+                    });
+
+                    function nextAnimationLine(duration) {
+                        timeLineAll.forEach((timeLine, index) => {
+                            if (index <= currentItemIndex) {
+                                timeLine.children[0].classList.add('animate-time-line');
+                                timeLine.children[0].style.animationDuration = duration;
+                                if (index >= 1) {
+                                    timeLine.previousElementSibling.classList.add('active-time');
+                                    timeLine.previousElementSibling.children[0].classList.remove('animate-time-line');
+                                }
+                            } else if (index > currentItemIndex) {
+                                timeLine.children[0].classList.remove('animate-time-line');
+                                timeLine.classList.remove('active-time');
+                                timeLine.previousElementSibling.classList.remove('active-time');
+                                timeLine.children[0].style.animationDuration = duration;
+                            }
+                        });
+                    }
+
+                    video.addEventListener('ended', this.nextStoryItem);
+
+                }
+            }
+
+            pauseVideo(returnToStart = true) {
+                const activeIndex = this.modalSwiper.activeIndex;
+                const slides = this.modalSwiper.slides.length > 0 ? this.modalSwiper.slides : [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')];
+                const activeElement = slides[activeIndex];
+
+                const activeAnimationElm = activeElement.children[0].querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+
+                activeAnimationElm.forEach(elm => {
+                    elm.querySelector('.player-wrapper__process').style.animationPlayState = "paused";
+                });
+
+                if (activeElement) {
+                    const video = activeElement.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        if (returnToStart) {
+                            video.currentTime = 0;
+                        }
+                    }
+                }
+            }
+
+            handleTouchStart = (e) => {
+                const target = e.target.closest('.swiper-slide');
+                if (!target.classList.contains('swiper-slide-active')) return;
+            
+                const playerWrapper = target.querySelector('.player-wrapper');
+                const playerChunk = playerWrapper.querySelector('.player-wrapper__chunk-wrp');
+                const video = playerChunk.querySelector('video');
+            
+                if (video) {
+                    video.pause();
+                    
+                    const activeIndex = this.modalSwiper.activeIndex;
+                    const slides = this.modalSwiper.slides.length > 0 
+                        ? this.modalSwiper.slides 
+                        : [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')];
+                    const activeElement = slides[activeIndex];
+                    const activeAnimationElm = activeElement.children[0].querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+                    
+                    activeAnimationElm.forEach(elm => {
+                        elm.querySelector('.player-wrapper__process').style.animationPlayState = "paused";
+                    });
+                }
+            }
+            
+            handleTouchEnd = (e) => {
+                const target = e.target.closest('.swiper-slide');
+                if (!target.classList.contains('swiper-slide-active')) return;
+            
+                const playerWrapper = target.querySelector('.player-wrapper');
+                const playerChunk = playerWrapper.querySelector('.player-wrapper__chunk-wrp');
+                const video = playerChunk.querySelector('video');
+            
+                if (video) {
+                    video.play();
+            
+                    const activeIndex = this.modalSwiper.activeIndex;
+                    const slides = this.modalSwiper.slides.length > 0 
+                        ? this.modalSwiper.slides 
+                        : [...this.modalSwiper.wrapperEl.querySelectorAll('.swiper-slide')];
+                    const activeElement = slides[activeIndex];
+                    const activeAnimationElm = activeElement.children[0].querySelector('.player-wrapper__timeline-wrp').querySelectorAll('.player-wrapper__timeline');
+                    
+                    activeAnimationElm.forEach(elm => {
+                        elm.querySelector('.player-wrapper__process').style.animationPlayState = "running";
+                    });
+                }
+            }
+
+            nextStoryItem = (e) => {
+                const target = e.target.closest('.swiper-slide');
+            
+                if (!target || !target.classList.contains('swiper-slide-active')) return;
+            
+                const playerWrapper = e.target.closest('.player-wrapper');
+                const playerChunk = playerWrapper.querySelector('.player-wrapper__chunk-wrp');
+                const currentStoryIndex = this.modalSwiper.activeIndex;
+                const currentStoryItems = this.options.stories[currentStoryIndex].items;
+                const currentItemIndex = this.storiesIndexes[currentStoryIndex];
+            
+                if (currentItemIndex < currentStoryItems.length - 1) {
+                    this.storiesIndexes[currentStoryIndex] += 1;
+                    const currentItem = currentStoryItems[this.storiesIndexes[currentStoryIndex]];
+                    playerChunk.innerHTML = this.getStoryItemTypeTemplate(currentItem);
+            
+                    this.playVideo();
+            
+                    if (currentItem.goods.length > 0) {
+                        this.showGoods.innerHTML = this.getGoodsTemplate(currentItem);
+                        this.goodsButton.classList.remove('show-goods-button__hide');
+                    } else {
+                        this.showGoods.innerHTML = '';
+                        this.goodsButton.classList.add('show-goods-button__hide');
+                        playerWrapper.parentElement.querySelector('.player-wrapper__chunk-wrp')
+                            .append(this.showGoodsButtonLink(currentItem.prod));
+                    }
+                } else {
+                    const video = playerChunk.querySelector('video');
+                    if (video) video.pause();
+            
+                    if (currentStoryIndex === this.options.stories.length - 1) {
+                        this.circleColors();
+                        this.closeModal();
+                    } else {
+                        this.circleColors();
+                        this.modalSwiper.slideNext();
+                    }
+                }
+            
+                e.stopPropagation();
+            }
+
+            prevStoryItem = (e) => {
+                const target = e.target.closest('.swiper-slide');
+            
+                if (!target || !target.classList.contains('swiper-slide-active')) return;
+            
+                const playerWrapper = e.target.closest('.player-wrapper');
+                const playerChunk = playerWrapper.querySelector('.player-wrapper__chunk-wrp');
+                const currentStoryIndex = this.modalSwiper.activeIndex;
+                const currentItemIndex = this.storiesIndexes[currentStoryIndex];
+            
+                if (currentItemIndex > 0) {
+                    this.storiesIndexes[currentStoryIndex] -= 1;
+                    const currentItem = this.options.stories[currentStoryIndex].items[this.storiesIndexes[currentStoryIndex]];
+            
+                    playerChunk.innerHTML = this.getStoryItemTypeTemplate(currentItem);
+                    this.playVideo();
+            
+                    if (currentItem.goods.length > 0) {
+                        this.showGoods.innerHTML = this.getGoodsTemplate(currentItem);
+                        this.goodsButton.classList.remove('show-goods-button__hide');
+                    } else {
+                        this.showGoods.innerHTML = '';
+                        this.goodsButton.classList.add('show-goods-button__hide');
+                        playerWrapper.querySelector('.player-wrapper__chunk-wrp')
+                            .append(this.showGoodsButtonLink(currentItem.prod));
+                    }
+                } else if (currentStoryIndex > 0) {
+                    const video = playerChunk.querySelector('video');
+                    if (video) video.pause();
+            
+                    this.modalSwiper.slidePrev();
+                }
+            
+                e.stopPropagation();
+            }            
+
+            turnOnTurnoffSound() {
+                const soundBtn = this.modal.querySelector('.player-wrapper__muted');
+                const onMutedIcon = soundBtn.querySelector('.player-wrapper__on-muted');
+                const offMutedIcon = soundBtn.querySelector('.player-wrapper__off-muted');
+            
+                soundBtn.addEventListener('click', () => {
+                    this.muted = !this.muted;
+            
+                    onMutedIcon.classList.toggle('change_on-muted');
+                    offMutedIcon.classList.toggle('change_off-muted');
+            
+                    this.modalSwiper.slides
+                        .filter(slide => slide.querySelector('video'))
+                        .forEach(slide => slide.querySelector('video').muted = this.muted);
+                });
+            }
+
+            adjustButtonPosition() {
+                const parentBlock = this.element.querySelector('.slider-app-stories');
+                if (parentBlock) {
+                    const button = parentBlock.querySelector('.show-goods-button');
+                    if (button) {
+                        const parentHeight = parentBlock.clientHeight;
+                        const desiredOffset = 110;
+                        const newBottom = parentHeight > desiredOffset ? `${desiredOffset}px` : '110px';
+            
+                        button.style.setProperty('bottom', newBottom, 'important');
+                    }
+                }
+            }
+            
+            setup() {
+                this.adjustButton = this.adjustButtonPosition.bind(this);
+                window.addEventListener('resize', this.adjustButton);
+            }                               
+
+            slideToStoryItem(index) {
+                this.modalSwiper.activeIndex !== index && this.modalSwiper.slideTo(index);
+            }            
+
+            setup() {
+                [
+                    this.makeStoriesCircles,
+                    this.preloader,
+                    this.makeStoriesModal.bind(this, this.makeStoriesTemplate()),
+                    this.turnOnTurnoffSound,
+                    this.loadPageCircle,
+                    this.localSave,
+                    this.adjustButtonPosition
+                ].forEach(fn => fn.call(this));
+            }            
+        }
+
+        window.StoriesSlider = StoriesSlider;
+</script>
+
+</body>
+</html>
